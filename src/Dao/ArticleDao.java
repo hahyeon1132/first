@@ -26,8 +26,7 @@ public class ArticleDao {
 			String sql = "SELECT * FROM Article ORDER BY id DESC";
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			ResultSet rs = pstmt.executeQuery();
-			while(rs.next()) {
-				Article article = new Article();
+			while (rs.next()) {
 				int id = rs.getInt("id");
 				String title = rs.getString("title");
 				String body = rs.getString("body");
@@ -35,17 +34,10 @@ public class ArticleDao {
 				String regdate = rs.getString("regdate");
 				int memberid = rs.getInt("memberid");
 				int boardid = rs.getInt("boardid");
-				article.id = id;
-				article.title = title;
-				article.body = body;
-				article.updateDate = updatedate;
-				article.rageDate = regdate;
-				article.memberid = memberid;
-				article.boardid = boardid;
+				Article article = new Article(id, title, body, updatedate, regdate, memberid, boardid);
+
 				articles.add(article);
 			}
-			
-			
 
 		} catch (SQLException e1) {
 			e1.printStackTrace();
@@ -60,22 +52,6 @@ public class ArticleDao {
 				e.printStackTrace();
 			}
 		}
-		return articles;
-	}
-
-	private List<Article> getAritlces() {
-		List<Article> articles = new ArrayList<>();
-		Article article = new Article();
-
-		article.id = 1;
-		article.title = "제목";
-		article.body = "내용";
-		article.memberid = 1;
-		article.rageDate = "2020-11-17";
-		article.updateDate = "2020-11-17";
-
-		articles.add(article);
-
 		return articles;
 	}
 
