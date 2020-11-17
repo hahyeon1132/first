@@ -2,6 +2,7 @@ package Dao;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +18,19 @@ public class ArticleDao {
 					"sbs123414");
 		} catch (SQLException e) {
 			e.printStackTrace();
-		} finally {
+
+			
+		}try {
+			String sql = "UPDATE article";
+			sql += " SET updateDate = NOW()";
+			sql += " WHERE id = 3";
+				PreparedStatement pstmt = con.prepareStatement(sql);
+				pstmt.execute();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			
+		 finally {
 			try {
 				if (con != null) {
 					con.close();
@@ -25,7 +38,6 @@ public class ArticleDao {
 			} catch (SQLException e) {
 				e.printStackTrace();
 			}
-
 		}
 		return articles;
 	}
