@@ -3,6 +3,7 @@ package Dao;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,18 +20,38 @@ public class ArticleDao {
 		} catch (SQLException e) {
 			e.printStackTrace();
 
+		}
+		try {
+
+			String sql = "SELECT * FROM Article LIMIT 1";
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			ResultSet rs = pstmt.executeQuery();
+			rs.next();
+			Article article = new Article();
+			int id = rs.getInt("id");
+			String title = rs.getString("title");
+			String body = rs.getString("body");
+			String updatedate = rs.getString("updatedate");
+			String regdate = rs.getString("regdate");
+			int memberid = rs.getInt("memberid");
+			int boardid = rs.getInt("boardid");
 			
-		}try {
-			String sql = "UPDATE article";
-			sql += " SET updateDate = NOW()";
-			sql += " WHERE id = 3";
-				PreparedStatement pstmt = con.prepareStatement(sql);
-				pstmt.execute();
-			} catch (SQLException e1) {
-				e1.printStackTrace();
-			}
+			article.id = id;
+			article.title = title;
+			article.body = body;
+			article.updateDate = updatedate;
+			article.rageDate = regdate;
+			article.memberid = memberid;
+			article.boardid = boardid;
+			articles.add(article);
 			
-		 finally {
+			
+
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		}
+
+		finally {
 			try {
 				if (con != null) {
 					con.close();
