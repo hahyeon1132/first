@@ -20,7 +20,7 @@ public class App {
 		while(true) {
 			System.out.println("명령어 : ");
 			String command = sc.nextLine();
-			if(command.equals("article list")) {
+			if(command.startsWith("article")) {
 				ArticleController.articleController(command);
 			}
 			
