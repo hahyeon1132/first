@@ -10,13 +10,15 @@ import java.util.List;
 import Dto.Article;
 
 public class ArticleDao {
+	String mysqlserver = "jdbc:mysql://127.0.0.1/Java?serverTimezone=Asia/Seoul";
+	String serverId = "sbsst";
+	String serverPw = "sbs123414";
 
 	public List<Article> showArticleList() {
 		List<Article> articles = new ArrayList<>();
 		Connection con = null;
 		try {
-			con = DriverManager.getConnection("jdbc:mysql://127.0.0.1/Java?serverTimezone=Asia/Seoul", "sbsst",
-					"sbs123414");
+			con = DriverManager.getConnection(mysqlserver, serverId, serverPw);
 		} catch (SQLException e) {
 			e.printStackTrace();
 
@@ -53,6 +55,83 @@ public class ArticleDao {
 			}
 		}
 		return articles;
+	}
+
+	public Article detail(int id) {
+		Article article = null;
+		Connection con = null;
+
+		try {
+			con = DriverManager.getConnection(mysqlserver, serverId, serverPw);
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		String sql = "SELECT * FROM Article WHERE id=?";
+
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			ResultSet rs = pstmt.executeQuery();
+
+			if (rs.next()) {
+				int Id = rs.getInt("id");
+				String redDate = rs.getString("regDate");
+				String updateDate = rs.getString("updateDate");
+				String title = rs.getString("title");
+				String body = rs.getString("body");
+				int memberId = rs.getInt("memberId");
+				int boardId = rs.getInt("boardId");
+				article = new Article(Id, title, body, updateDate, redDate, memberId, boardId);
+
+			}
+		} catch (SQLException e1) {
+			e1.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+			}
+		}
+		return article;
+	}
+
+	public void delet(int id) {
+		Connection con = null;
+		int garvige=0;
+
+		try {
+			con = DriverManager.getConnection(mysqlserver, serverId, serverPw);
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
+		String sql = "DELETE FROM Article WHERE id=?";
+
+		try {
+			
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setInt(1, id);
+			garvige = pstmt.executeUpdate();
+			
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 	}
 
 }

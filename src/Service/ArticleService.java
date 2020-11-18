@@ -18,6 +18,18 @@ public class ArticleService {
 		
 	}
 
+	public Article detail(int id) {
+		return articleDao.detail(id);
+	}
+
+	public void delet(int id) {
+		articleDao.delet(id);
+		
+	}
+
+
+	
+
 	
 
 }
