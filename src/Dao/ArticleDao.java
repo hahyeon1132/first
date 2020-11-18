@@ -102,22 +102,22 @@ public class ArticleDao {
 
 	public void delet(int id) {
 		Connection con = null;
-		int garvige=0;
+		int garvige = 0;
 
 		try {
 			con = DriverManager.getConnection(mysqlserver, serverId, serverPw);
 		} catch (SQLException e) {
-			
+
 			e.printStackTrace();
 		}
 		String sql = "DELETE FROM Article WHERE id=?";
 
 		try {
-			
+
 			PreparedStatement pstmt = con.prepareStatement(sql);
 			pstmt.setInt(1, id);
 			garvige = pstmt.executeUpdate();
-			
+
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -131,7 +131,41 @@ public class ArticleDao {
 				e.printStackTrace();
 			}
 		}
-		
+
+	}
+
+	public void write(String title, String body) {
+		Connection con = null;
+
+		try {
+			con = DriverManager.getConnection(mysqlserver, serverId, serverPw);
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		}
+
+		String sql = "INSERT INTO Java.Article (regDate, updateDate, title, body, memberId, boardID)";
+		sql += " VALUES (now(), now(), ?, ?, 4, 4)";
+
+		try {
+			PreparedStatement pstmt = con.prepareStatement(sql);
+			pstmt.setString(1, title);
+			pstmt.setString(2, body);
+			pstmt.executeLargeUpdate();
+		} catch (SQLException e) {
+
+			e.printStackTrace();
+		} finally {
+			try {
+				if (con != null) {
+					con.close();
+				}
+			} catch (SQLException e) {
+
+				e.printStackTrace();
+			}
+		}
+
 	}
 
 }

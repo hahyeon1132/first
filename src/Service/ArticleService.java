@@ -27,6 +27,10 @@ public class ArticleService {
 		
 	}
 
+	public void write(String title, String body) {
+		articleDao.write(title,body);
+	}
+
 
 	
 

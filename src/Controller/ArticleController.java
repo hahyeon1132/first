@@ -1,16 +1,19 @@
 package Controller;
 
 import java.util.List;
-
+import java.util.Scanner;
+import Container.Container;
 import Dto.Article;
 import Service.ArticleService;
 
 public class ArticleController {
 
 	private ArticleService articleService;
+	private Scanner sc;
 
 	public ArticleController() {
 		articleService = new ArticleService();
+		sc = Container.scanner;
 	}
 
 	public void articleController(String command) {
@@ -20,8 +23,23 @@ public class ArticleController {
 			detail(command);
 		}else if(command.startsWith("article delet ")) {
 			delet(command);
+		}else if(command.equals("article write")) {
+			write();
 		}
 
+	}
+
+	private void write() {
+		System.out.println("== 게시글 작성 ==");
+		System.out.println("제목 : ");
+		String title = sc.nextLine();
+		System.out.println("내용 : ");
+		String body = sc.nextLine();
+		
+		articleService.write(title,body);
+		
+		
+		
 	}
 
 	private void delet(String command) {
